@@ -1,0 +1,2 @@
+C:/Users/Israa/autombile/GP-Autombile/android/app/.cxx/Debug/yi111y6s/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/Israa/autombile/GP-Autombile/android/app/.cxx/Debug/yi111y6s/x86_64/CMakeFiles/rebuild_cache.dir

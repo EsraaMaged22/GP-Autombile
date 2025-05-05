@@ -30,8 +30,8 @@ class CustomButton extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF196bbe), // اللون الأول
-                AppColor.primaryBlue, // اللون الثاني
+                Color(0xFF196bbe),
+                AppColor.primaryBlue,
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,

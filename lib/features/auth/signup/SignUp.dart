@@ -1,103 +1,116 @@
-import 'package:autombile/features/auth/signup/SignUp2.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
+import '../../../../core/constants/colors.dart';
+import '../../../../core/widgets/custom_button.dart';
 import '../../../core/constants/fonts.dart';
 import '../../../core/widgets/CustomTextField.dart';
-import '../../../core/widgets/custom_button.dart';
-import '../../home/home.dart';
-import '../login/login.dart';
+import 'signup2.dart';
+import '../user_model.dart';
 
-class Signup extends StatefulWidget {
-  const Signup({super.key});
+class Signup1 extends StatefulWidget {
+  const Signup1({super.key});
 
   @override
- State createState() => _SignupState();
+  State<Signup1> createState() => _Signup1State();
 }
 
-class _SignupState extends State<Signup> {
+class _Signup1State extends State<Signup1> {
   final _formKey = GlobalKey<FormState>();
+  late final UserModel user;
+
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _nationalIdController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 22),
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
-              children: [ Image.asset("assets/images/logo.png",width: 204,height: 70,),
+    return Scaffold(
+      backgroundColor: AppColor.backGround,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: _formKey,
+            child: Column( mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 40),
+                Image.asset("assets/images/logo.png", width: 204, height: 70),
                 Padding(
                   padding: const EdgeInsets.only(top: 30),
-                  child: Text('Create account',style: AppFonts.headlineText,),
+                  child: Text('Create account', style: AppFonts.headlineText),
                 ),
-                Text('Welcome,Wishing you a nice trip',style: AppFonts.textStyle16gray,),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: CustomTextFormField(hintText: "Full name from national ID",validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter your Full name';
-                    }
-                    return null;
-                  },),
-                ),
-                CustomTextFormField(hintText: "Email",validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter your email';
-                  }
-                  return null;
-                },),
-                CustomTextFormField(hintText: "Phone Number",validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter your phone number';
-                  }
-                  else if (value.length != 11) {
-                    return 'phone number is invalid';}
-                  return null;
-                },),
-
+                Text('Welcome, Wishing a nice trip.', style: AppFonts.textStyle16gray),
+                const SizedBox(height: 30),
                 CustomTextFormField(
-                  hintText: "Password",
-                  icon: Icons.lock,
-                  obscureText: true,
+                  hintText: 'Full Name',
+                  controller: _fullNameController,
                   validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter your password';
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your full name';
                     }
                     return null;
                   },
                 ),
+                const SizedBox(height: 16),
                 CustomTextFormField(
-                  hintText: " Confirm Password",
-                  icon: Icons.lock,
-                  obscureText: true,
+                  hintText: 'Email',
+                  controller: _emailController,
                   validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Confirm your password';
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
                     }
                     return null;
                   },
                 ),
+                const SizedBox(height: 16),
+                CustomTextFormField(
+                  hintText: 'Phone Number',
+                  controller: _phoneNumberController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your phone number';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                CustomTextFormField(
+                  hintText: 'National ID',
+                  controller: _nationalIdController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your national ID';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 40),
                 CustomButton(
-                  text: "Next",
+                  text: 'Next',
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Signup2(),
+                          builder: (context) => Signup2(
+                            user: UserModel(
+                              fullName: _fullNameController.text,
+                              email: _emailController.text,
+                              phoneNumber: _phoneNumberController.text,
+                              nationalId: _nationalIdController.text,
+                              address: '',
+                              licenseNumber: '',
+                              numberOfCars: 0,
+                              carDashboard: '',
+                            ),
+
+                          ),
                         ),
                       );
-                    } else {
-                      print('Form is invalid');
                     }
                   },
                 ),
-
-
               ],
             ),
           ),
@@ -106,3 +119,4 @@ class _SignupState extends State<Signup> {
     );
   }
 }
+

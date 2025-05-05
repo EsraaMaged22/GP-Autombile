@@ -1,154 +1,142 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/fonts.dart';
 import '../../../core/widgets/CustomTextField.dart';
 import '../../../core/widgets/custom_button.dart';
-import '../../home/home.dart';
-import '../login/login.dart';
+import '../user_model.dart';
+import 'otp.dart';
 
 class Signup2 extends StatefulWidget {
-  const Signup2({super.key});
+  final UserModel user;
+
+  const Signup2({super.key,  required this.user});
 
   @override
   State<Signup2> createState() => _Signup2State();
 }
 
 class _Signup2State extends State<Signup2> {
+  late UserModel user;
   final _formKey = GlobalKey<FormState>();
-  late var agreeTerm = false;
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _licenseController = TextEditingController();
+  final TextEditingController _carsNumberController = TextEditingController();
+  final TextEditingController _dashboardController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    user = widget.user;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 22),
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
-              children: [ Image.asset("assets/images/logo.png",width: 204,height: 70,),
+    return Scaffold(
+      backgroundColor: AppColor.backGround,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 40),
+                Image.asset("assets/images/logo.png", width: 204, height: 70),
                 Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Text('Create account',style: AppFonts.headlineText,),
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text('Create account', style: AppFonts.headlineText),
                 ),
-                Text('Welcome,Wishing you a nice trip',style: AppFonts.textStyle16gray,),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: CustomTextFormField(hintText: "National ID",validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter National ID';
+                Text('Keep going to start your trip.', style: AppFonts.textStyle16gray),
+                const SizedBox(height: 30),
+                CustomTextFormField(
+                  hintText: 'Address',
+                  controller: _addressController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your address';
                     }
-                    else if (value.length != 14) {
-                      return 'National ID must be 14 digits';}
                     return null;
-                  },),
+                  },
                 ),
-                CustomTextFormField(hintText: "Address",validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter your address';
-                  }
-                  return null;
-                },),
-                CustomTextFormField(hintText: "License number",validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter your license number';
-                  }
-                  return null;
-                },),
-
-                CustomTextFormField(hintText: "Number of cars you have",validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter your number of cars';
-                  }
-                  return null;
-                },),
-
-                CustomTextFormField(hintText: "car dashboard",validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter car dashboard';
-                  }
-                  return null;
-                },),
-
-
-                Row(
-                  children: [ Checkbox(
-                    value: agreeTerm,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        agreeTerm = value!;
-                      });
-                    },
-                    activeColor: AppColor.grey,
-                    side: BorderSide(color: AppColor.grey),
-                  ),
-                    Text("I agree to the terms of use ",
-                        style: GoogleFonts.workSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: AppColor.grey,
-                        ),
-
-                          ),
-                  ],
+                const SizedBox(height: 16),
+                CustomTextFormField(
+                  hintText: 'License Number',
+                  controller: _licenseController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your license number';
+                    }
+                    return null;
+                  },
                 ),
+                const SizedBox(height: 16),
+                CustomTextFormField(
+                  hintText: 'Number of Cars',
+                  controller: _carsNumberController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter number of cars';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                CustomTextFormField(
+                  hintText: 'Car Dashboard',
+                  controller: _dashboardController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter car dashboard';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                CustomTextFormField(
+                  hintText: 'Password',
+                  controller: _passwordController,
+                  obscureText: true,
+                  icon: Icons.visibility,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 40),
                 CustomButton(
-                  text: "Sign Up",
+                  text: 'Sign up',
                   onPressed: () {
-                    if (_formKey.currentState!.validate() && agreeTerm) {
+                    if (_formKey.currentState!.validate()) {
+                      final updatedUser = UserModel(
+                        fullName: widget.user.fullName,
+                        email: widget.user.email,
+                        phoneNumber: widget.user.phoneNumber,
+                        nationalId: widget.user.nationalId,
+                        address: _addressController.text,
+                        licenseNumber: _licenseController.text,
+                        numberOfCars: int.tryParse(_carsNumberController.text) ?? 0,
+                        carDashboard: _dashboardController.text,
+                      );
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomeScreen(),
+                          builder: (context) => Otp(email: widget.user.email,),
                         ),
                       );
-                    } else if (!agreeTerm) {
-                      print('You must agree to the terms of use');
                     }
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RichText(
-                    text: TextSpan(
-                      text: "Already have an account? ",
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: 'Login',
-                          style: const TextStyle(
-                            color: AppColor.primaryBlue,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Login(),
-                                ),
-                              );
-                              print('Sign Up tapped');
-                            },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ],
-                  ),
-                ),
             ),
-
-
-      )
-    ) ;
+          ),
+        ),
+      ),
+    );
   }
 }
