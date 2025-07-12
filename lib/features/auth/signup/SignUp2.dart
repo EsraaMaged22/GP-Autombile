@@ -3,32 +3,25 @@ import '../../../core/constants/colors.dart';
 import '../../../core/constants/fonts.dart';
 import '../../../core/widgets/CustomTextField.dart';
 import '../../../core/widgets/custom_button.dart';
-import '../user_model.dart';
+import '../models/user_model.dart';
 import 'otp.dart';
 
 class Signup2 extends StatefulWidget {
   final UserModel user;
 
-  const Signup2({super.key,  required this.user});
+  const Signup2({super.key, required this.user});
 
   @override
   State<Signup2> createState() => _Signup2State();
 }
 
 class _Signup2State extends State<Signup2> {
-  late UserModel user;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _licenseController = TextEditingController();
   final TextEditingController _carsNumberController = TextEditingController();
   final TextEditingController _dashboardController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    user = widget.user;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,10 +116,11 @@ class _Signup2State extends State<Signup2> {
                         carDashboard: _dashboardController.text,
                       );
 
+                      // Proceed to OTP screen with updated user
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Otp(email: widget.user.email,),
+                          builder: (context) => Otp(email: widget.user.email),
                         ),
                       );
                     }

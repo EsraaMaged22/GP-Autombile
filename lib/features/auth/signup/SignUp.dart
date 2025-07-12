@@ -4,7 +4,7 @@ import '../../../../core/widgets/custom_button.dart';
 import '../../../core/constants/fonts.dart';
 import '../../../core/widgets/CustomTextField.dart';
 import 'signup2.dart';
-import '../user_model.dart';
+import '../models/user_model.dart';
 
 class Signup1 extends StatefulWidget {
   const Signup1({super.key});
@@ -15,8 +15,6 @@ class Signup1 extends StatefulWidget {
 
 class _Signup1State extends State<Signup1> {
   final _formKey = GlobalKey<FormState>();
-  late final UserModel user;
-
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
@@ -31,7 +29,8 @@ class _Signup1State extends State<Signup1> {
           padding: const EdgeInsets.all(16),
           child: Form(
             key: _formKey,
-            child: Column( mainAxisAlignment: MainAxisAlignment.start,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 40),
@@ -71,6 +70,9 @@ class _Signup1State extends State<Signup1> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your phone number';
                     }
+                    if (value.length != 11 || !RegExp(r'^[0-9]+$').hasMatch(value)) {
+                      return 'Phone number must be exactly 11 digits';
+                    }
                     return null;
                   },
                 ),
@@ -81,6 +83,9 @@ class _Signup1State extends State<Signup1> {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your national ID';
+                    }
+                    if (value.length != 14 || !RegExp(r'^[0-9]+$').hasMatch(value)) {
+                      return 'National ID must be exactly 14 digits';
                     }
                     return null;
                   },
@@ -104,7 +109,6 @@ class _Signup1State extends State<Signup1> {
                               numberOfCars: 0,
                               carDashboard: '',
                             ),
-
                           ),
                         ),
                       );
@@ -119,4 +123,3 @@ class _Signup1State extends State<Signup1> {
     );
   }
 }
-

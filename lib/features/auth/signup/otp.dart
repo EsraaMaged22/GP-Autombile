@@ -7,7 +7,7 @@ import 'package:pinput/pinput.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/fonts.dart';
 import '../../../core/widgets/custom_button.dart';
-import '../api_service.dart';
+import '../../services/api_service.dart';
 
 class Otp extends StatefulWidget {
   final String email;
@@ -65,7 +65,7 @@ Padding(
             Center(
               child: Pinput(
                 defaultPinTheme: defaultPinTheme,
-                length: 5,
+                length: 6,
                 onCompleted: (value) {
                   otpCode = value;
                 },
@@ -76,24 +76,34 @@ Padding(
               child: CustomButton(
                 text: 'Verify',
                 onPressed: () async {
-                  try {
-                    final response = await ApiService().generateOtp(
-                      email: widget.email,
-                      otp: otpCode,
-                    );
-                    if (response.statusCode == 200) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VerifyAccount(),
-                        ),
-                      );
-                    }
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(e.toString())),
-                    );
-                  }
+
+                  Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VerifyAccount(),
+                            ),
+                          );
+
+
+
+                  // try {
+                  //   final response = await ApiService().generateOtp(
+                  //     email: widget.email,
+                  //     otp: otpCode,
+                  //   );
+                  //   if (response.statusCode == 200) {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => VerifyAccount(),
+                  //       ),
+                  //     );
+                  //   }
+                  // } catch (e) {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(content: Text(e.toString())),
+                  //   );
+                  // }
                 },
               ),
             ),

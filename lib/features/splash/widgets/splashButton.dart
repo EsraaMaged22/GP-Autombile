@@ -1,4 +1,6 @@
+import 'package:autombile/features/auth/login/login.dart';
 import 'package:autombile/features/onboarding/onboarding.dart';
+import 'package:autombile/features/splash/splash2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

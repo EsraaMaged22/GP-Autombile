@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import '../../../core/constants/fonts.dart';
 import '../../../core/widgets/CustomTextField.dart';
 import '../../../core/widgets/custom_button.dart';
-import '../api_service.dart';
-import '../user_model.dart';
+import '../../services/api_service.dart';
+import '../models/user_model.dart';
 
 class ForgetPassword extends StatefulWidget {
   final String email;
